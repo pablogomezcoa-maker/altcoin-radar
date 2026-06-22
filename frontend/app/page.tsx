@@ -8,7 +8,18 @@ async function getCoins() {
       throw new Error("Failed to fetch coins");
     }
 
-    return res.json();
+    const data = await res.json();
+
+    // soporta array directo o { coins: [...] }
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    if (Array.isArray(data.coins)) {
+      return data.coins;
+    }
+
+    return [];
   } catch (error) {
     console.error(error);
     return [];
